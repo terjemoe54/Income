@@ -8,7 +8,16 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State private var transactions: [Transaction] = []
+    @State private var transactions: [Transaction] = [
+        Transaction(title: "Lønn", type: .income, state: .completed, amount: 18700, date: .now),
+        Transaction(title: "Husleie", type: .expense, state: .completed, amount: 11300, date: .now),
+        Transaction(title: "Strøm", type: .expense, state: .pending, amount: 415, date: .now),
+        Transaction(title: "Mobil", type: .expense, state: .pending, amount: 954, date: .now),
+        Transaction(title: "Tv / Internett", type: .expense, state: .pending, amount: 350, date: .now),
+        Transaction(title: "Tog", type: .expense, state: .pending, amount: 380, date: .now),
+        Transaction(title: "Parkering", type: .expense, state: .pending, amount: 100, date: .now)
+    ]
+    
     @State private var showAddTransactionView = false
     @State private var transactionToEdit: Transaction?
     

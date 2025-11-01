@@ -22,13 +22,13 @@ enum TransactionType: String, CaseIterable, Identifiable {
 }
 
 enum TransactionState: String, CaseIterable, Identifiable {
-    case waiting, completed
+    case pending, completed
     var id: Self { self }
     
     var state: String {
         switch self {
-        case .waiting:
-            return "Waiting"
+        case .pending:
+            return "Pending"
         case .completed:
             return "Completed"
         }

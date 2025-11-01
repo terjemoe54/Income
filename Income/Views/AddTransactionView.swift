@@ -10,7 +10,7 @@ struct AddTransactionView: View {
     @State private var amount = 0.0
     @State private var transactionTitle = ""
     @State private var selectedTransactionType: TransactionType = .expense
-    @State private var selectedTransactionState: TransactionState = .waiting
+    @State private var selectedTransactionState: TransactionState = .pending
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var showAlert = false

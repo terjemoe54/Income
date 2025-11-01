@@ -35,7 +35,7 @@ struct TransactionView: View {
                         Text(transaction.display(currency: currency))
                             .font(.system(size: 15, weight: .bold))
                     }
-                    Text(transaction.state == .waiting ? "Pending" : "Completed")
+                    Text(transaction.state == .pending ? "Pending" : "Completed")
                         .font(.system(size: 14))
                 }
             }
@@ -45,5 +45,5 @@ struct TransactionView: View {
 }
 
 #Preview {
-    TransactionView(transaction: Transaction(title: "Apple", type: .expense, state: .waiting, amount: 5.00, date: Date()))
+    TransactionView(transaction: Transaction(title: "Apple", type: .expense, state: .pending, amount: 5.00, date: Date()))
 }
