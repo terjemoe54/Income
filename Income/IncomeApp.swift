@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct IncomeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
+            
         }
     }
+    //    init() {
+    //        print(URL.applicationSupportDirectory.path(percentEncoded: false))
+    //    }
+    
 }
