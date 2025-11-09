@@ -22,7 +22,33 @@ struct HomeView: View {
         VStack {
             List {
                 ForEach(transactions) { transaction in
-                    Text(transaction.title)
+                    VStack {
+                        HStack {
+                           Spacer()
+                            Text("13/11/25")
+                                .font(.system(size: 14))
+                            Spacer()
+                        }
+                        .padding(.vertical, 5)
+                        .background(Color.lightGrayShade.opacity(0.5))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        HStack {
+                            Image(systemName: transaction.type == .income ? "arrow.up.forward" : "arrow.down.forward")
+                                .font(.system(size: 16, weight: .bold ))
+                                .foregroundStyle(transaction.type == .income ? Color.green : Color.red)
+                            VStack(alignment: .leading, spacing: 5) {
+                                HStack {
+                                    Text(transaction.title)
+                                        .font(.system(size: 15, weight: .bold))
+                                    Spacer()
+                                    Text(String(transaction.amount))
+                                        .font(.system(size: 15, weight: .bold))
+                                }
+                                Text("Completed")
+                                    .font(.system(size: 14))
+                            }
+                        }
+                    }
                 }
             }
         }
