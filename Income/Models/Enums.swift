@@ -8,10 +8,15 @@
 import Foundation
 
 enum TransactionState {
-    case pending, paid
+    case  paid, pending, resieved, taken
+    
 }
 
 enum TransactionType {
     case income, expense
     
+}
+
+enum TransactionCategoy {
+    case ordenary, taken
 }
