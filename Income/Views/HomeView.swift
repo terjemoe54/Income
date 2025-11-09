@@ -25,7 +25,7 @@ struct HomeView: View {
                     VStack {
                         HStack {
                            Spacer()
-                            Text("13/11/25")
+                            Text(transaction.displayRegDate)
                                 .font(.system(size: 14))
                             Spacer()
                         }
@@ -41,7 +41,7 @@ struct HomeView: View {
                                     Text(transaction.title)
                                         .font(.system(size: 15, weight: .bold))
                                     Spacer()
-                                    Text(String(transaction.amount))
+                                    Text(String(transaction.displayAmount))
                                         .font(.system(size: 15, weight: .bold))
                                 }
                                 Text("Completed")
