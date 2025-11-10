@@ -31,7 +31,8 @@ struct TransactionView: View {
                         Text(String(transaction.displayAmount))
                             .font(.system(size: 15, weight: .bold))
                     }
-                    Text("Completed")
+                    // Text(transaction.type == .income ? "Income" : "Expense")
+                    Text(transaction.type.transTitle)
                         .font(.system(size: 14))
                 }
             }
