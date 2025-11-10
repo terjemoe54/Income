@@ -32,7 +32,7 @@ struct TransactionView: View {
                             .font(.system(size: 15, weight: .bold))
                     }
                     // Text(transaction.type == .income ? "Income" : "Expense")
-                    Text(transaction.type.transTitle)
+                    Text(transaction.type.title)
                         .font(.system(size: 14))
                 }
             }

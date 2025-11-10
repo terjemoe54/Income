@@ -11,7 +11,7 @@ enum TransactionState: String, CaseIterable, Identifiable {
     case  paid, pending, resieved, taken
     var id: Self { self }
     
-    var transTitle: String {
+    var title: String {
         switch self {
         case .paid:
             return "Paid"
@@ -29,10 +29,10 @@ enum TransactionType: String, CaseIterable, Identifiable {
     case income, expense
     var id: Self { self }
     
-    var transTitle: String {
+    var title: String {
         switch self {
         case .income:
-            return "Inkom"
+            return "Income"
         case .expense:
             return "Expense"
         }
@@ -44,7 +44,7 @@ enum TransactionCategoy: String, CaseIterable, Identifiable {
     
     var id: Self { self }
     
-    var transTitle: String {
+    var title: String {
         switch self {
         case .ordenary:
             return "Ordenary"
