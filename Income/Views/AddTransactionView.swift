@@ -9,13 +9,20 @@ import SwiftUI
 
 struct AddTransactionView: View {
     
+    @Environment(\.dismiss) var dismiss
     @State private var amount = 0.00
     @State private var transactionTitle = ""
     @State private var selectedTransactionType: TransactionType = .expense
-    
+    @State private var selectedCategory: TransactionCategoy = .ordenary
+    @State private var selectedState: TransactionState = .pending
+    @State private var expDate: Date = Date()
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    @State private var showAlert = false
+    @Binding var transactions: [Transaction]
     var numberFormatter: NumberFormatter {
         let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .currency
+        numberFormatter.numberStyle = .decimal
         return numberFormatter
     }
     
@@ -31,6 +38,7 @@ struct AddTransactionView: View {
                .frame(height: 0.5)
                .padding(.horizontal, 30)
            
+           // Picker for Expense / Income
            Picker("Choose Type", selection: $selectedTransactionType) {
                ForEach(TransactionType.allCases) { transactionType in
                    Text(transactionType.title)
@@ -38,12 +46,53 @@ struct AddTransactionView: View {
                    
                }
            }
+       
+           // Picker for Ordenary / Taken
+           Picker("Choose Type", selection: $selectedCategory) {
+               ForEach(TransactionCategoy.allCases) { transactionCategory in
+                   Text(transactionCategory.title)
+                       .tag(transactionCategory)
+                   
+               }
+           }
+           
+           // Picker for Pending / Payed / Recieved / Taken
+           Picker("Choose Type", selection: $selectedState) {
+               ForEach(TransactionState.allCases) { transactionState in
+                   Text(transactionState.title)
+                       .tag(transactionState)
+                   
+               }
+           }
+           HStack {
+               Text("Due Date")
+                   .padding(.leading)
+               
+               DatePicker("", selection: $expDate,
+                          displayedComponents: .date)
+               .padding(.trailing)
+           }
+          
+           
+           
            TextField("Title", text: $transactionTitle)
                .font(.system(size: 15))
                .textFieldStyle(.roundedBorder)
                .padding(.horizontal, 30)
                .padding(.top)
            Button {
+               guard transactionTitle.count >= 2 else {
+                   alertTitle = "Invalid Title"
+                   alertMessage = "Title must be 2 or more characters"
+                   showAlert = true
+                   return
+               }
+               
+               let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: Date(), expDate: expDate)
+              
+               transactions.append(transaction)
+               
+               dismiss()
                
            } label: {
                Text("Create")
@@ -61,9 +110,18 @@ struct AddTransactionView: View {
        
        }
        .padding(.top)
+       .alert(alertTitle, isPresented: $showAlert) {
+           Button(action: {
+               
+           }, label: {
+               Text("OK")
+           })
+           } message: {
+                Text(alertMessage)
+        }
     }
 }
 
 #Preview {
-    AddTransactionView()
+    AddTransactionView(transactions: .constant([]))
 }
