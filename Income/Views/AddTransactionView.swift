@@ -17,6 +17,7 @@ struct AddTransactionView: View {
     @State private var selectedState: TransactionState = .pending
     @State private var selectedRegDate = Date()
     @State private var selectedExpDate = Date()
+    @State private var intervall = 0
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var showAlert = false
@@ -105,7 +106,7 @@ struct AddTransactionView: View {
                    return
                }
                
-               let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
+               let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate, intervall: intervall)
               
                transactions.append(transaction)
                
