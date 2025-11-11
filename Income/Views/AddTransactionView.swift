@@ -15,7 +15,8 @@ struct AddTransactionView: View {
     @State private var selectedTransactionType: TransactionType = .expense
     @State private var selectedCategory: TransactionCategoy = .ordenary
     @State private var selectedState: TransactionState = .pending
-    @State private var expDate: Date = Date()
+    @State private var selectedRegDate = Date()
+    @State private var selectedExpDate = Date()
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var showAlert = false
@@ -65,13 +66,29 @@ struct AddTransactionView: View {
                }
            }
            HStack {
-               Text("Due Date")
-                   .padding(.leading)
+               VStack (alignment: .center){
+                   Text("Registration Date")
+                       .padding(.leading)
+                   
+                   DatePicker("", selection: $selectedRegDate,
+                              displayedComponents: .date)
+                   .padding(.trailing)
+                  
+               }
+               .padding()
                
-               DatePicker("", selection: $expDate,
-                          displayedComponents: .date)
-               .padding(.trailing)
+               VStack (alignment: .center) {
+                   Text("Due Date")
+                       .padding(.leading)
+                   
+                   DatePicker("", selection: $selectedRegDate,
+                              displayedComponents: .date)
+                   .padding(.trailing)
+               }
+               .padding()
+               
            }
+           .padding(.vertical, 25)
           
            
            
@@ -88,7 +105,7 @@ struct AddTransactionView: View {
                    return
                }
                
-               let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: Date(), expDate: expDate)
+               let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
               
                transactions.append(transaction)
                
