@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @AppStorage("darkModeEnambled") private var darkModeEnabled = false
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
+    @AppStorage("TaxPercent") private var tax: String = ""
     
     @State private var showingSettings = false
     
@@ -89,6 +90,8 @@ struct HomeView: View {
             ZStack {
                 VStack {
                     BalanceView()
+//                    Text(tax)
+//                        .font(.title)
                     List {
                         ForEach(transactions) { transaction in
                             TransactionView(transaction: transaction)
@@ -106,14 +109,14 @@ struct HomeView: View {
                         showingSettings = true
                     } label: {
                         Image(systemName: "gearshape.fill")
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
                     }
                 }
             }
             .sheet(isPresented: $showingSettings) {
-                SettingsView(darkModeEnabled: $darkModeEnabled, systemThemeEnabled: $systemThemeEnabled)
+                SettingsView(tax: $tax, darkModeEnabled: $darkModeEnabled, systemThemeEnabled: $systemThemeEnabled)
             }
-        }
+        }.preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
 }
 

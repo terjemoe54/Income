@@ -11,7 +11,7 @@ struct SettingsView: View {
     
     @AppStorage("Your Name") var name: String = ""
     @AppStorage("Your Bank Account") var account: String = ""
-    @AppStorage("TaxPercent") var tax: String = ""
+    @Binding var tax: String
     @Binding var darkModeEnabled: Bool
     @Binding var systemThemeEnabled: Bool
     
@@ -49,8 +49,8 @@ struct SettingsView: View {
                         }
                     }
                 }
-                .foregroundColor(.black)
-                .font(.system(size: 16, weight: .semibold))
+//                .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
+//                .font(.system(size: 16, weight: .semibold))
                 
                 Section {
                     Link(destination: URL(string: Constants.web)!,
@@ -65,45 +65,20 @@ struct SettingsView: View {
                          destination: URL(string: Constants.phone)!)
                     
                 }
-                .foregroundColor(.black)
-                .font(.system(size: 16, weight: .semibold))
+//                .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
+//                .font(.system(size: 16, weight: .semibold))
                 
             }
+            .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
+            .font(.system(size: 16, weight: .semibold))
             .navigationTitle("Settings")
             
         }
+        .preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
 }
 
 #Preview {
-    SettingsView(darkModeEnabled: .constant(false), systemThemeEnabled: .constant(false))
+    SettingsView(tax: .constant("18"), darkModeEnabled: .constant(false), systemThemeEnabled: .constant(false))
 }
 
-/*
- ZStack {
-     Color.yellow.opacity(0.2)
-         .ignoresSafeArea()
-     VStack{
-         
-         Text("SETTINGS")
-             .font(.largeTitle)
-             .fontWeight(.bold)
-             .background(.green.opacity(0.2))
-             .padding(.top, 30)
-             .padding(.bottom, 30)
-    
-         Text("Navn:")
-         TextField("Name: ", text: $name)
-         Text("BankKonto:")
-         TextField("Bank Account:", text: $account)
-         Text("SkatteProsent:")
-             TextField("Tax % :", text: $tax) // Denne må gjøres om til int
-          Spacer()
-     }
-     .multilineTextAlignment(.center)
-     .font(.system(size: 16, weight:.bold))
-     .textFieldStyle(RoundedBorderTextFieldStyle())
-     .cornerRadius(15)
-     .padding(.horizontal, 25)
-  }
- */
