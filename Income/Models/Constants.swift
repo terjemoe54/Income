@@ -6,3 +6,9 @@
 //
 
 import Foundation
+  
+enum Constants {
+    static let web = "https://www.vg.no"
+    static let email = "mailto: terjemoe54@hotmail.com"
+    static let phone = "tel:99594576"
+}

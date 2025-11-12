@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
+    @AppStorage("darkModeEnambled") private var darkModeEnabled = false
+    @AppStorage(systemThemeEnabled) private var systemThemeEnabled = false
+    
+    
     @State private var transactions: [Transaction] =
     [
         Transaction(title: "Lønn", type: .income, state: .resieved, cat: .ordenary, amount: 32000.54, regDate: Date(), expDate: .now, intervall: 1),
