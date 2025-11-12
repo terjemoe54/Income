@@ -12,6 +12,9 @@ struct SettingsView: View {
     @AppStorage("Your Name") var name: String = ""
     @AppStorage("Your Bank Account") var account: String = ""
     @AppStorage("TaxPercent") var tax: String = ""
+    @Binding var darkModeEnabled: Bool
+    @Binding var systemThemeEnabled: Bool
+    
     var body: some View {
         NavigationView {
             Form {
@@ -19,11 +22,11 @@ struct SettingsView: View {
                 Section(header: Text("Display"),
                         footer: Text("System settings will override Dark Mode and use the current device theme")) {
                     
-                    Toggle(isOn: .constant(true)) {
+                    Toggle(isOn: $darkModeEnabled) {
                         Text("Dark mode")
                     }
                     
-                    Toggle(isOn: .constant(true)) {
+                    Toggle(isOn: $systemThemeEnabled) {
                         Text("Use System Settings")
                     }
                     
@@ -73,7 +76,7 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(darkModeEnabled: .constant(false), systemThemeEnabled: .constant(false))
 }
 
 /*

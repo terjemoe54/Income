@@ -9,16 +9,17 @@ import SwiftUI
 
 struct HomeView: View {
     @AppStorage("darkModeEnambled") private var darkModeEnabled = false
-    @AppStorage(systemThemeEnabled) private var systemThemeEnabled = false
+    @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     
+    @State private var showingSettings = false
     
     @State private var transactions: [Transaction] =
     [
         Transaction(title: "Lønn", type: .income, state: .resieved, cat: .ordenary, amount: 32000.54, regDate: Date(), expDate: .now, intervall: 1),
         Transaction(title: "Skatt", type: .expense, state: .taken, cat: .ordenary, amount: 9425.78, regDate: .now, expDate: .now, intervall: 0),
-        Transaction(title: "Husleie", type: .expense, state: .taken, cat: .taken, amount: 11300.00, regDate: .now, expDate: Date(), intervall: 1),
-        Transaction(title: "Strøm", type: .expense, state: .paid, cat: .ordenary, amount: 387.29, regDate: Date(), expDate: Date(), intervall: 1),
-        Transaction(title: "Kemner", type: .expense, state: .taken, cat: .taken, amount: 1370.00, regDate: .now, expDate: .now, intervall: 2)
+//        Transaction(title: "Husleie", type: .expense, state: .taken, cat: .taken, amount: 11300.00, regDate: .now, expDate: Date(), intervall: 1),
+//        Transaction(title: "Strøm", type: .expense, state: .paid, cat: .ordenary, amount: 387.29, regDate: Date(), expDate: Date(), intervall: 1),
+//        Transaction(title: "Kemner", type: .expense, state: .taken, cat: .taken, amount: 1370.00, regDate: .now, expDate: .now, intervall: 2)
     ]
     
     fileprivate func FloatingButton() -> some View {
@@ -96,17 +97,21 @@ struct HomeView: View {
                     .scrollContentBackground(.hidden)
                 }
                 FloatingButton()
+                
             }
             .navigationTitle("Income")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        
+                        showingSettings = true
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundStyle(Color.black)
                     }
                 }
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView(darkModeEnabled: $darkModeEnabled, systemThemeEnabled: $systemThemeEnabled)
             }
         }
     }
