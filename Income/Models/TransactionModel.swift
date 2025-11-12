@@ -13,7 +13,6 @@ struct Transaction: Identifiable {
     let title: String
     let type: TransactionType
     let state: TransactionState
-    let cat: TransactionCategoy?
     let amount: Double
     let regDate: Date
     let expDate: Date

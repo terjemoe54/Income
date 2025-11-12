@@ -45,5 +45,5 @@ struct TransactionView: View {
 }
 
 #Preview {
-    TransactionView(transaction: Transaction(title: "Telefon", type: .expense, state: .pending, cat: .ordenary, amount: 984.45, regDate: .now, expDate: .now, intervall: 1))
+    TransactionView(transaction: Transaction(title: "Telefon", type: .expense, state: .pending, amount: 984.45, regDate: .now, expDate: .now, intervall: 1))
 }

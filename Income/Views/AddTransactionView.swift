@@ -12,7 +12,6 @@ struct AddTransactionView: View {
     @State private var amount = 0.00
     @State private var transactionTitle = ""
     @State private var selectedTransactionType: TransactionType = .expense
-    @State private var selectedCategory: TransactionCategoy = .ordenary
     @State private var selectedState: TransactionState = .pending
     @State private var selectedRegDate = Date()
     @State private var selectedExpDate = Date()
@@ -47,15 +46,6 @@ struct AddTransactionView: View {
                 }
             }
             
-            
-            // Picker for Ordenary / Taken
-            Picker("Choose Type", selection: $selectedCategory) {
-                ForEach(TransactionCategoy.allCases) { transactionCategory in
-                    Text(transactionCategory.title)
-                        .tag(transactionCategory)
-                }
-            }
-            
             // Picker for Pending / Payed / Recieved / Taken
             Picker("Choose Type", selection: $selectedState) {
                 ForEach(TransactionState.allCases) { transactionState in
@@ -64,6 +54,7 @@ struct AddTransactionView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
+            
             Text("Intervall: 2")
             HStack {
                 VStack (alignment: .center){
@@ -101,7 +92,7 @@ struct AddTransactionView: View {
                     return
                 }
                 
-                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate, intervall: intervall)
+                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState,amount: amount, regDate: selectedRegDate, expDate: selectedExpDate, intervall: intervall)
                 
                 transactions.append(transaction)
                 

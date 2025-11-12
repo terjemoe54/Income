@@ -8,17 +8,17 @@
 import Foundation
 
 enum TransactionState: String, CaseIterable, Identifiable {
-    case  paid, pending, resieved, taken
+    case   resieved, pending, paid, taken
     var id: Self { self }
     
     var title: String {
         switch self {
         case .paid:
-            return "Paid"
+            return "Resieved"
         case .pending:
             return "Pending"
         case .resieved:
-            return "Resieved"
+            return "Paid"
         case .taken:
             return "Taken"
         }
@@ -39,17 +39,3 @@ enum TransactionType: String, CaseIterable, Identifiable {
     }
 }
 
-enum TransactionCategoy: String, CaseIterable, Identifiable {
-    case ordenary, taken
-    
-    var id: Self { self }
-    
-    var title: String {
-        switch self {
-        case .ordenary:
-            return "Ordenary"
-        case .taken:
-            return "Taken"
-        }
-    }
-}
