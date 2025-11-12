@@ -10,11 +10,11 @@ import SwiftUI
 struct HomeView: View {
     @State private var transactions: [Transaction] =
     [
-//        Transaction(title: "Lønn", type: .income, state: .resieved, cat: .ordenary, amount: 32000.54, regDate: Date(), expDate: .now, intervall: 1),
-//        Transaction(title: "Skatt", type: .expense, state: .taken, cat: .ordenary, amount: 9425.78, regDate: .now, expDate: .now, intervall: 1),
-//        Transaction(title: "Husleie", type: .expense, state: .taken, cat: .taken, amount: 11300.00, regDate: .now, expDate: Date(), intervall: 1),
-//        Transaction(title: "Strøm", type: .expense, state: .paid, cat: .ordenary, amount: 387.29, regDate: Date(), expDate: Date(), intervall: 1),
-//        Transaction(title: "Kemner", type: .expense, state: .taken, cat: .taken, amount: 1370.00, regDate: .now, expDate: .now, intervall: 1)
+        Transaction(title: "Lønn", type: .income, state: .resieved, cat: .ordenary, amount: 32000.54, regDate: Date(), expDate: .now, intervall: 1),
+        Transaction(title: "Skatt", type: .expense, state: .taken, cat: .ordenary, amount: 9425.78, regDate: .now, expDate: .now, intervall: 0),
+        Transaction(title: "Husleie", type: .expense, state: .taken, cat: .taken, amount: 11300.00, regDate: .now, expDate: Date(), intervall: 1),
+        Transaction(title: "Strøm", type: .expense, state: .paid, cat: .ordenary, amount: 387.29, regDate: Date(), expDate: Date(), intervall: 1),
+        Transaction(title: "Kemner", type: .expense, state: .taken, cat: .taken, amount: 1370.00, regDate: .now, expDate: .now, intervall: 2)
     ]
     
     fileprivate func FloatingButton() -> some View {
@@ -27,12 +27,10 @@ struct HomeView: View {
                     .font(.largeTitle)
                     .frame(width: 70, height: 70)
                     .foregroundStyle(Color.white)
-                
             }
             .background(Color.primaryLightGreen)
             .clipShape(Circle())
             .padding(.bottom, 7)
-            
         }
     }
     
@@ -49,8 +47,8 @@ struct HomeView: View {
                         Text("NOK2")
                             .font(.system(size: 42, weight: .light))
                             .foregroundStyle(Color.white)
-                        }
-                  Spacer()
+                    }
+                    Spacer()
                 }
                 .padding(.top)
                 
@@ -72,7 +70,6 @@ struct HomeView: View {
                             .foregroundStyle(Color.white)
                     }
                 }
-                
                 Spacer()
             }
             .padding(.horizontal)
@@ -100,12 +97,11 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                       
+                        
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundStyle(Color.black)
                     }
-
                 }
             }
         }

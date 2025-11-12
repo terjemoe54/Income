@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AddTransactionView: View {
-    
     @Environment(\.dismiss) var dismiss
     @State private var amount = 0.00
     @State private var transactionTitle = ""
@@ -29,113 +28,107 @@ struct AddTransactionView: View {
     }
     
     var body: some View {
-       VStack {
-           TextField("0.00", value: $amount, formatter: numberFormatter)
-               .font(.system(size: 60, weight: .thin))
-               .multilineTextAlignment(.center)
-               .keyboardType(.numberPad)
-          
-           Rectangle()
-               .fill(Color(uiColor: UIColor.lightGray))
-               .frame(height: 0.5)
-               .padding(.horizontal, 30)
-           
-           // Picker for Expense / Income
-           Picker("Choose Type", selection: $selectedTransactionType) {
-               ForEach(TransactionType.allCases) { transactionType in
-                   Text(transactionType.title)
-                       .tag(transactionType)
-                   
-               }
-           }
-       
-           // Picker for Ordenary / Taken
-           Picker("Choose Type", selection: $selectedCategory) {
-               ForEach(TransactionCategoy.allCases) { transactionCategory in
-                   Text(transactionCategory.title)
-                       .tag(transactionCategory)
-                   
-               }
-           }
-           
-           // Picker for Pending / Payed / Recieved / Taken
-           Picker("Choose Type", selection: $selectedState) {
-               ForEach(TransactionState.allCases) { transactionState in
-                   Text(transactionState.title)
-                       .tag(transactionState)
-                   
-               }
-           }
-           HStack {
-               VStack (alignment: .center){
-                   Text("Registration Date")
-                       .padding(.leading)
-                   
-                   DatePicker("", selection: $selectedRegDate,
-                              displayedComponents: .date)
-                   .padding(.trailing)
-                  
-               }
-               .padding()
-               
-               VStack (alignment: .center) {
-                   Text("Due Date")
-                       .padding(.leading)
-                   
-                   DatePicker("", selection: $selectedRegDate,
-                              displayedComponents: .date)
-                   .padding(.trailing)
-               }
-               .padding()
-               
-           }
-           .padding(.vertical, 25)
-          
-           
-           
-           TextField("Title", text: $transactionTitle)
-               .font(.system(size: 15))
-               .textFieldStyle(.roundedBorder)
-               .padding(.horizontal, 30)
-               .padding(.top)
-           Button {
-               guard transactionTitle.count >= 2 else {
-                   alertTitle = "Invalid Title"
-                   alertMessage = "Title must be 2 or more characters"
-                   showAlert = true
-                   return
-               }
-               
-               let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate, intervall: intervall)
-              
-               transactions.append(transaction)
-               
-               dismiss()
-               
-           } label: {
-               Text("Create")
-                   .font(.system(size: 15, weight: .semibold))
-                   .foregroundStyle(Color.white)
-                   .frame(height: 40)
-                   .frame(maxWidth: .infinity)
-                   .background(Color.primaryLightGreen)
-                   .clipShape(RoundedRectangle(cornerRadius: 6))
-           }
-           .padding(.top)
-           .padding(.horizontal, 30)
-
-               Spacer()
-       
-       }
-       .padding(.top)
-       .alert(alertTitle, isPresented: $showAlert) {
-           Button(action: {
-               
-           }, label: {
-               Text("OK")
-           })
-           } message: {
-                Text(alertMessage)
+        VStack {
+            TextField("0.00", value: $amount, formatter: numberFormatter)
+                .font(.system(size: 60, weight: .thin))
+                .multilineTextAlignment(.center)
+                .keyboardType(.numberPad)
+            
+            Rectangle()
+                .fill(Color(uiColor: UIColor.lightGray))
+                .frame(height: 0.5)
+                .padding(.horizontal, 30)
+            
+            // Picker for Expense / Income
+            Picker("Choose Type", selection: $selectedTransactionType) {
+                ForEach(TransactionType.allCases) { transactionType in
+                    Text(transactionType.title)
+                        .tag(transactionType)
+                }
+            }
+            
+            
+            // Picker for Ordenary / Taken
+            Picker("Choose Type", selection: $selectedCategory) {
+                ForEach(TransactionCategoy.allCases) { transactionCategory in
+                    Text(transactionCategory.title)
+                        .tag(transactionCategory)
+                }
+            }
+            
+            // Picker for Pending / Payed / Recieved / Taken
+            Picker("Choose Type", selection: $selectedState) {
+                ForEach(TransactionState.allCases) { transactionState in
+                    Text(transactionState.title)
+                        .tag(transactionState)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            Text("Intervall: 2")
+            HStack {
+                VStack (alignment: .center){
+                    Text("Registration Date")
+                        .padding(.leading)
+                    
+                    DatePicker("", selection: $selectedRegDate,
+                               displayedComponents: .date)
+                    .padding(.trailing)
+                }
+                .padding()
+                
+                VStack (alignment: .center) {
+                    Text("Due Date")
+                        .padding(.leading)
+                    
+                    DatePicker("", selection: $selectedExpDate,
+                               displayedComponents: .date)
+                    .padding(.trailing)
+                }
+                .padding()
+            }
+            .padding(.vertical, 25)
+             
+            TextField("Title", text: $transactionTitle)
+                .font(.system(size: 15))
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal, 30)
+                .padding(.top)
+            Button {
+                guard transactionTitle.count >= 2 else {
+                    alertTitle = "Invalid Title"
+                    alertMessage = "Title must be 2 or more characters"
+                    showAlert = true
+                    return
+                }
+                
+                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState, cat: selectedCategory, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate, intervall: intervall)
+                
+                transactions.append(transaction)
+                
+                dismiss()
+                
+            } label: {
+                Text("Create")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(Color.white)
+                    .frame(height: 40)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.primaryLightGreen)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+            }
+            .padding(.top)
+            .padding(.horizontal, 30)
+            Spacer()
+        }
+        .padding(.top)
+        .alert(alertTitle, isPresented: $showAlert) {
+            Button(action: {
+                
+            }, label: {
+                Text("OK")
+            })
+        } message: {
+            Text(alertMessage)
         }
     }
 }

@@ -12,9 +12,11 @@ struct TransactionView: View {
         VStack {
             HStack {
                 Spacer()
-                //Text(transaction.displayRegDate)
-                Text("\(transaction.regDate)")
-                    .font(.system(size: 14))
+            //        Text("Reg Date: \(transaction.displayRegDate)")
+            //        .font(.system(size: 14))
+                    Text("Due Date: \(transaction.displayExpDate)")
+                    .font(.system(size: 16, weight: .bold))
+                        .font(.system(size: 14))
                 Spacer()
             }
             .padding(.vertical, 5)
