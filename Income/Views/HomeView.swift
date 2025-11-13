@@ -9,7 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     @AppStorage("darkModeEnambled") private var darkModeEnabled = false
-    @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
+    @AppStorage("ShowName") private var showName = false
+    @AppStorage("YourName") private var name: String = ""
     @AppStorage("TaxPercent") private var tax: String = ""
     
     @State private var showingSettings = false
@@ -102,7 +103,7 @@ struct HomeView: View {
                 FloatingButton()
                 
             }
-            .navigationTitle("Income")
+            .navigationTitle(showName ? "Income \(name)" : "Income")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -114,7 +115,7 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingSettings) {
-                SettingsView(tax: $tax, darkModeEnabled: $darkModeEnabled, systemThemeEnabled: $systemThemeEnabled)
+                SettingsView(name: $name, tax: $tax, darkModeEnabled: $darkModeEnabled, showName: $showName)
                 // bare cooment
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)

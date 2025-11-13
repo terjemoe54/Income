@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Binding var name: String
     @Binding var tax: String
     @Binding var darkModeEnabled: Bool
-    @Binding var systemThemeEnabled: Bool
+    @Binding var showName: Bool
     
     var body: some View {
         NavigationView {
@@ -22,14 +23,19 @@ struct SettingsView: View {
                         Text("Dark mode")
                     }
                     
-                    Toggle(isOn: $systemThemeEnabled) {
-                        Text("Use System Settings")
+                    Toggle(isOn: $showName) {
+                        Text("Show User Name")
                     }
                 }
                 
                 Section(header: Text("Personal Information"),
                         footer: Text("Enter Taxprcent Here")) {
                     VStack {
+                        HStack {
+                            Text("Your Name:          ")
+                            TextField("Name:", text: $name)
+                        }
+                        
                         HStack {
                             Text("Skatt:          ")
                             TextField("Tax % :", text: $tax)
@@ -64,5 +70,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(tax: .constant("18"), darkModeEnabled: .constant(false), systemThemeEnabled: .constant(false))
+    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), darkModeEnabled: .constant(false), showName: .constant(false))
 }
