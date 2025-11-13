@@ -115,6 +115,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView(tax: $tax, darkModeEnabled: $darkModeEnabled, systemThemeEnabled: $systemThemeEnabled)
+                // bare cooment
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
