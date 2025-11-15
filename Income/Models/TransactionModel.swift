@@ -16,7 +16,7 @@ struct Transaction: Identifiable {
     let amount: Double
     let regDate: Date
     let expDate: Date
-    let intervall: Int
+    
    
     var displayRegDate: String {
         let dateFormatter = DateFormatter()

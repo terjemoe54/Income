@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum TransactionState: String, CaseIterable, Identifiable {
     case   resieved, pending, paid, taken
@@ -23,6 +24,19 @@ enum TransactionState: String, CaseIterable, Identifiable {
             return "Taken"
         }
     }
+    
+    var color: Color {
+        switch self {
+        case .paid:
+            return .blue
+        case .pending:
+            return .yellow
+        case .resieved:
+            return .green
+        case .taken:
+            return .red
+        }
+    }
 }
 
 enum TransactionType: String, CaseIterable, Identifiable {
@@ -35,6 +49,15 @@ enum TransactionType: String, CaseIterable, Identifiable {
             return "Income"
         case .expense:
             return "Expense"
+        }
+    }
+    var color: Color {
+        switch self {
+            
+        case .income:
+            return .green
+        case .expense:
+            return .red
         }
     }
 }

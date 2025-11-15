@@ -45,6 +45,8 @@ struct AddTransactionView: View {
                         .tag(transactionType)
                 }
             }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.horizontal, 50)
             
             // Picker for Pending / Payed / Recieved / Taken
             Picker("Choose Type", selection: $selectedState) {
@@ -54,8 +56,7 @@ struct AddTransactionView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-            
-            Text("Intervall: 2")
+           
             HStack {
                 VStack (alignment: .center){
                     Text("Registration Date")
@@ -92,7 +93,7 @@ struct AddTransactionView: View {
                     return
                 }
                 
-                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState,amount: amount, regDate: selectedRegDate, expDate: selectedExpDate, intervall: intervall)
+                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState,amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
                 
                 transactions.append(transaction)
                 

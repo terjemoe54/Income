@@ -29,6 +29,7 @@ struct TransactionView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
                         Text(transaction.title)
+                            .foregroundStyle(transaction.type.color)
                             .font(.system(size: 15, weight: .bold))
                         Spacer()
                         Text(String(transaction.displayAmount))
@@ -45,5 +46,5 @@ struct TransactionView: View {
 }
 
 #Preview {
-    TransactionView(transaction: Transaction(title: "Telefon", type: .expense, state: .pending, amount: 984.45, regDate: .now, expDate: .now, intervall: 1))
+    TransactionView(transaction: Transaction(title: "Telefon", type: .expense, state: .pending, amount: 984.45, regDate: .now, expDate: .now))
 }
