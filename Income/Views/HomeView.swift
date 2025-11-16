@@ -15,11 +15,13 @@ struct HomeView: View {
     @State private var showingSettings = false
     @State private var transactions: [Transaction] =
     [
-        // Transaction(title: "Lønn", type: .income, state: .resieved, amount: 32000.54, regDate: Date(), expDate: .now),
-        // Transaction(title: "Skatt", type: .expense, state: .taken, amount: 9425.78, regDate: .now, expDate: .now),
-        // Transaction(title: "Husleie", type: .expense, state: .taken, amount: 11300.00, regDate: .now, expDate: Date()),
-        // Transaction(title: "Strøm", type: .expense, state: .paid, amount: 387.29, regDate: Date(), expDate: Date()),
-        // Transaction(title: "Kemner", type: .expense, state: .taken, amount: 1370.00, regDate: .now, expDate: .now)
+         Transaction(title: "Pensjon Nav", type: .income, state: .resieved, amount: 35875, regDate: Date(), expDate: .now),
+         Transaction(title: "Pensjon WW", type: .income, state: .resieved, amount: 1000.00, regDate: .now, expDate: .now),
+         Transaction(title: "Skatt Nav", type: .expense, state: .taken, amount: 6457.00, regDate: .now, expDate: .now),
+         Transaction(title: "Skatt WW", type: .expense, state: .taken, amount: 271.00, regDate: .now, expDate: .now),
+         Transaction(title: "Husleie", type: .expense, state: .taken, amount: 11300.00, regDate: .now, expDate: Date()),
+         Transaction(title: "Kemner", type: .expense, state: .taken, amount: 1000.00, regDate: .now, expDate: .now),
+         Transaction(title: "Nav Feilbetalt", type: .expense, state: .taken, amount: 1370.00, regDate: .now, expDate: .now)
     ]
     
     fileprivate func FloatingButton() -> some View {
