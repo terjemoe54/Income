@@ -59,7 +59,6 @@ struct SettingsView: View {
                              destination: URL(string: Constants.phone)!)
                     }
                 }
-                
             }
             .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
             .font(.system(size: 16, weight: .semibold))

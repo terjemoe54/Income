@@ -28,6 +28,7 @@ struct AddTransactionView: View {
     
     var body: some View {
         VStack {
+            Spacer()
             TextField("0.00", value: $amount, formatter: numberFormatter)
                 .font(.system(size: 60, weight: .thin))
                 .multilineTextAlignment(.center)
@@ -56,7 +57,30 @@ struct AddTransactionView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-           
+            
+            HStack {
+                Spacer()
+                ZStack {
+                    Capsule()
+                        .frame(width: 100, height: 30)
+                        .foregroundColor(selectedTransactionType.color.opacity(0.7))
+                        .overlay(Text(selectedTransactionType.title)
+                            .font(.system(size: 15, weight: .bold)))
+                }
+                Spacer()
+                
+                ZStack {
+                    Capsule()
+                        .frame(width: 100, height: 30)
+                        .foregroundColor(selectedState.color.opacity(0.7))
+                        .overlay(Text(selectedState.title)
+                            .font(.system(size: 15, weight: .bold)))
+                    
+                }
+                Spacer()
+            }
+            .padding(.top, 40)
+            
             HStack {
                 VStack (alignment: .center){
                     Text("Registration Date")
@@ -79,16 +103,16 @@ struct AddTransactionView: View {
                 .padding()
             }
             .padding(.vertical, 25)
-             
+            
             TextField("Title", text: $transactionTitle)
                 .font(.system(size: 15))
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 30)
                 .padding(.top)
             Button {
-                guard transactionTitle.count >= 2 else {
+                guard transactionTitle.count >= 2 && amount > 0 else {
                     alertTitle = "Invalid Title"
-                    alertMessage = "Title must be 2 or more characters"
+                    alertMessage = "Title must be 2 or more characters and amount must be greater than 0"
                     showAlert = true
                     return
                 }
@@ -96,7 +120,6 @@ struct AddTransactionView: View {
                 let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState,amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
                 
                 transactions.append(transaction)
-                
                 dismiss()
                 
             } label: {

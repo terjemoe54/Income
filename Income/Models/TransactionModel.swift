@@ -17,7 +17,6 @@ struct Transaction: Identifiable {
     let regDate: Date
     let expDate: Date
     
-   
     var displayRegDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -34,7 +33,6 @@ struct Transaction: Identifiable {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.maximumFractionDigits = 2
-        return numberFormatter.string(from: amount as NSNumber) ?? "$0.00" 
+        return numberFormatter.string(from: amount as NSNumber) ?? "$0.00"
     }
-    
 }

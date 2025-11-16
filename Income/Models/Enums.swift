@@ -51,6 +51,7 @@ enum TransactionType: String, CaseIterable, Identifiable {
             return "Expense"
         }
     }
+    
     var color: Color {
         switch self {
             
@@ -61,4 +62,3 @@ enum TransactionType: String, CaseIterable, Identifiable {
         }
     }
 }
-

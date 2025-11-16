@@ -12,16 +12,14 @@ struct HomeView: View {
     @AppStorage("ShowName") private var showName = false
     @AppStorage("YourName") private var name: String = ""
     @AppStorage("TaxPercent") private var tax: String = ""
-    
     @State private var showingSettings = false
-    
     @State private var transactions: [Transaction] =
     [
-        Transaction(title: "Lønn", type: .income, state: .resieved, amount: 32000.54, regDate: Date(), expDate: .now),
-        Transaction(title: "Skatt", type: .expense, state: .taken, amount: 9425.78, regDate: .now, expDate: .now),
-//        Transaction(title: "Husleie", type: .expense, state: .taken, cat: .taken, amount: 11300.00, regDate: .now, expDate: Date(), intervall: 1),
-//        Transaction(title: "Strøm", type: .expense, state: .paid, cat: .ordenary, amount: 387.29, regDate: Date(), expDate: Date(), intervall: 1),
-//        Transaction(title: "Kemner", type: .expense, state: .taken, cat: .taken, amount: 1370.00, regDate: .now, expDate: .now, intervall: 2)
+        // Transaction(title: "Lønn", type: .income, state: .resieved, amount: 32000.54, regDate: Date(), expDate: .now),
+        // Transaction(title: "Skatt", type: .expense, state: .taken, amount: 9425.78, regDate: .now, expDate: .now),
+        // Transaction(title: "Husleie", type: .expense, state: .taken, amount: 11300.00, regDate: .now, expDate: Date()),
+        // Transaction(title: "Strøm", type: .expense, state: .paid, amount: 387.29, regDate: Date(), expDate: Date()),
+        // Transaction(title: "Kemner", type: .expense, state: .taken, amount: 1370.00, regDate: .now, expDate: .now)
     ]
     
     fileprivate func FloatingButton() -> some View {
@@ -91,8 +89,6 @@ struct HomeView: View {
             ZStack {
                 VStack {
                     BalanceView()
-//                    Text(tax)
-//                        .font(.title)
                     List {
                         ForEach(transactions) { transaction in
                             TransactionView(transaction: transaction)
@@ -101,9 +97,8 @@ struct HomeView: View {
                     .scrollContentBackground(.hidden)
                 }
                 FloatingButton()
-                
             }
-            .navigationTitle(showName ? "Income \(name)" : "Income")
+            .navigationTitle(showName ? "Account \(name)" : "Account")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
