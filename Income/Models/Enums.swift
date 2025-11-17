@@ -58,7 +58,7 @@ enum TransactionType: String, CaseIterable, Identifiable {
         case .income:
             return .green
         case .expense:
-            return .red
+            return .black
         }
     }
 }

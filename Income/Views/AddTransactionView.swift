@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddTransactionView: View {
-    @Environment(\.dismiss) var dismiss
+   
     @State private var amount = 0.00
     @State private var transactionTitle = ""
     @State private var selectedTransactionType: TransactionType = .expense
@@ -20,6 +20,8 @@ struct AddTransactionView: View {
     @State private var alertMessage = ""
     @State private var showAlert = false
     @Binding var transactions: [Transaction]
+    var transactionToEdit: Transaction?
+    @Environment(\.dismiss) var dismiss
     var numberFormatter: NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -119,11 +121,22 @@ struct AddTransactionView: View {
                 
                 let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState,amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
                 
-                transactions.append(transaction)
+                if let transactionToEdit = transactionToEdit {
+                    guard let indexOfTransaction = transactions.firstIndex(of: transactionToEdit) else {
+                        alertTitle = "Something went wrong"
+                        alertMessage = "Could not Update the transaction"
+                        showAlert = true
+                        return
+                    }
+                    transactions[indexOfTransaction] = transaction
+                } else {
+                    transactions.append(transaction)
+                }
+                
                 dismiss()
                 
             } label: {
-                Text("Create")
+                Text(transactionToEdit == nil ? "Create" : "Update")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Color.white)
                     .frame(height: 40)
@@ -135,6 +148,17 @@ struct AddTransactionView: View {
             .padding(.horizontal, 30)
             Spacer()
         }
+        .onAppear(perform: {
+            if let transactionToEdit = transactionToEdit {
+                amount = transactionToEdit.amount
+                transactionTitle = transactionToEdit.title
+                selectedTransactionType = transactionToEdit.type
+                selectedState = transactionToEdit.state
+                selectedRegDate = transactionToEdit.regDate
+                selectedExpDate = transactionToEdit.expDate
+                
+            }
+        })
         .padding(.top)
         .alert(alertTitle, isPresented: $showAlert) {
             Button(action: {

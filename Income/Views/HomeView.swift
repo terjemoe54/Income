@@ -13,6 +13,8 @@ struct HomeView: View {
     @AppStorage("YourName") private var name: String = ""
     @AppStorage("TaxPercent") private var tax: String = ""
     @State private var showingSettings = false
+    @State private var transactionToEdit: Transaction? = nil
+    @State private var showAddTransactionView = false
     @State private var transactions: [Transaction] =
     [
          Transaction(title: "Pensjon Nav", type: .income, state: .resieved, amount: 35875, regDate: Date(), expDate: .now),
@@ -93,7 +95,14 @@ struct HomeView: View {
                     BalanceView()
                     List {
                         ForEach(transactions) { transaction in
-                            TransactionView(transaction: transaction)
+                            Button {
+                                transactionToEdit = transaction
+                            } label: {
+                                TransactionView(transaction: transaction)
+                                    .foregroundStyle(.black)
+                            }
+                            
+                   
                         }
                     }
                     .scrollContentBackground(.hidden)
@@ -101,10 +110,15 @@ struct HomeView: View {
                 FloatingButton()
             }
             .navigationTitle(showName ? "Account \(name)" : "Account")
+            .navigationDestination(item: $transactionToEdit, destination: {
+                transactionToEdit in
+                AddTransactionView(transactions: $transactions,
+                                   transactionToEdit: transactionToEdit)
+            })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showingSettings = true
+                    showingSettings = true
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
@@ -112,8 +126,8 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingSettings) {
-                SettingsView(name: $name, tax: $tax, darkModeEnabled: $darkModeEnabled, showName: $showName)
-                // bare cooment
+            SettingsView(name: $name, tax: $tax, darkModeEnabled: $darkModeEnabled, showName: $showName)
+               
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)
     }

@@ -35,10 +35,18 @@ struct TransactionView: View {
                         Spacer()
                         Text(String(transaction.displayAmount))
                             .font(.system(size: 15, weight: .bold))
+                            .padding(.horizontal)
                     }
                     // Text(transaction.type == .income ? "Income" : "Expense")
-                    Text(transaction.type.title)
-                        .font(.system(size: 14))
+                    HStack {
+                        Text(transaction.type.title)
+                            .font(.system(size: 14).bold())
+                         Spacer()
+                        Text(transaction.state.title)
+                            .font(Font.system(size: 14).bold())
+                            .foregroundStyle(transaction.state.color)
+                            .padding(.horizontal)
+                    }
                 }
             }
         }
