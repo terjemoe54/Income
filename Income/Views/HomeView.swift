@@ -17,14 +17,43 @@ struct HomeView: View {
     @State private var showAddTransactionView = false
     @State private var transactions: [Transaction] =
     [
-         Transaction(title: "Pensjon Nav", type: .income, state: .resieved, amount: 35875, regDate: Date(), expDate: .now),
-         Transaction(title: "Pensjon WW", type: .income, state: .resieved, amount: 1000.00, regDate: .now, expDate: .now),
-         Transaction(title: "Skatt Nav", type: .expense, state: .taken, amount: 6457.00, regDate: .now, expDate: .now),
-         Transaction(title: "Skatt WW", type: .expense, state: .taken, amount: 271.00, regDate: .now, expDate: .now),
-         Transaction(title: "Husleie", type: .expense, state: .taken, amount: 11300.00, regDate: .now, expDate: Date()),
-         Transaction(title: "Kemner", type: .expense, state: .taken, amount: 1000.00, regDate: .now, expDate: .now),
-         Transaction(title: "Nav Feilbetalt", type: .expense, state: .taken, amount: 1370.00, regDate: .now, expDate: .now)
+//         Transaction(title: "Pensjon Nav", type: .income, state: .resieved, amount: 35875, regDate: Date(), expDate: .now),
+//         Transaction(title: "Pensjon WW", type: .income, state: .resieved, amount: 1000.00, regDate: .now, expDate: .now),
+//         Transaction(title: "Skatt Nav", type: .expense, state: .taken, amount: 6457.00, regDate: .now, expDate: .now),
+//         Transaction(title: "Skatt WW", type: .expense, state: .taken, amount: 271.00, regDate: .now, expDate: .now),
+//         Transaction(title: "Husleie", type: .expense, state: .taken, amount: 11300.00, regDate: .now, expDate: Date()),
+//         Transaction(title: "Kemner", type: .expense, state: .taken, amount: 1000.00, regDate: .now, expDate: .now),
+//         Transaction(title: "Nav Feilbetalt", type: .expense, state: .taken, amount: 1370.00, regDate: .now, expDate: .now)
     ]
+    
+    private var expenses: String {
+        let sumExpenses =  transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 2
+        return numberFormatter.string(from: sumExpenses as NSNumber) ?? "NOK 0.00"
+        
+    }
+    
+    private var income: String {
+        let sumIncome =  transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 2
+        return numberFormatter.string(from: sumIncome as NSNumber) ?? "NOK 0.00"
+        
+    }
+    
+    private var total: String {
+        let sumExpenses =  transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
+        let sumIncome =  transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
+        let total = sumIncome - sumExpenses
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 2
+        return numberFormatter.string(from: total as NSNumber) ?? "NOK 0.00"
+    }
+    
     
     fileprivate func FloatingButton() -> some View {
         VStack {
@@ -53,7 +82,7 @@ struct HomeView: View {
                         Text("BALANCE")
                             .font(.caption)
                             .foregroundStyle(Color.white)
-                        Text("NOK2")
+                        Text("\(total)")
                             .font(.system(size: 42, weight: .light))
                             .foregroundStyle(Color.white)
                     }
@@ -66,7 +95,7 @@ struct HomeView: View {
                         Text("Expense")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(Color.white)
-                        Text("NOK22")
+                        Text("\(expenses)")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(Color.white)
                     }
@@ -74,7 +103,7 @@ struct HomeView: View {
                         Text("Income")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(Color.white)
-                        Text("NOK22")
+                        Text("\(income)")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(Color.white)
                     }
@@ -104,6 +133,7 @@ struct HomeView: View {
                             
                    
                         }
+                        .onDelete(perform: delete)
                     }
                     .scrollContentBackground(.hidden)
                 }
@@ -130,6 +160,10 @@ struct HomeView: View {
                
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)
+    }
+    
+    private func delete(at offsets: IndexSet) {
+        transactions.remove(atOffsets: offsets)
     }
 }
 
