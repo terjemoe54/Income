@@ -8,20 +8,20 @@
 import Foundation
 import SwiftUI
 
-enum TransactionState: String, CaseIterable, Identifiable {
+enum TransactionState: String, CaseIterable, Identifiable, Codable {
     case   resieved, pending, paid, taken
     var id: Self { self }
     
     var title: String {
         switch self {
         case .paid:
-            return "Resieved"
+            return "Mottatt"
         case .pending:
-            return "Pending"
+            return "Venter"
         case .resieved:
-            return "Paid"
+            return "Betalt"
         case .taken:
-            return "Taken"
+            return "Trukket"
         }
     }
     
@@ -39,16 +39,16 @@ enum TransactionState: String, CaseIterable, Identifiable {
     }
 }
 
-enum TransactionType: String, CaseIterable, Identifiable {
+enum TransactionType: String, CaseIterable, Identifiable, Codable {
     case income, expense
     var id: Self { self }
     
     var title: String {
         switch self {
         case .income:
-            return "Income"
+            return "Intekt"
         case .expense:
-            return "Expense"
+            return "Utgift"
         }
     }
     

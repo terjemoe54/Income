@@ -13,11 +13,11 @@ struct IncomeApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-            
+                .modelContainer(for: [TransactionModel.self])
         }
     }
-    //    init() {
-    //        print(URL.applicationSupportDirectory.path(percentEncoded: false))
-    //    }
+        init() {
+            print(URL.applicationSupportDirectory.path(percentEncoded: false))
+        }
     
 }

@@ -7,15 +7,17 @@
 import SwiftUI
 
 struct TransactionView: View {
-    let transaction: Transaction
+    let transaction: TransactionModel
+    @AppStorage("currency") var currency = "NOK"
+    
     var body: some View {
         VStack {
             HStack {
                 Spacer()
-                Text("Reg : \(transaction.displayRegDate)")
+                Text("Registrert : \(transaction.displayRegDate)")
                     .font(.system(size: 14,weight: .bold))
                 Spacer()
-                Text("Due : \(transaction.displayExpDate)")
+                Text("Forfall : \(transaction.displayExpDate)")
                     .font(.system(size: 14, weight: .bold))
                     .font(.system(size: 14))
                 Spacer()
@@ -56,5 +58,5 @@ struct TransactionView: View {
 }
 
 #Preview {
-    TransactionView(transaction: Transaction(title: "Telefon", type: .expense, state: .pending, amount: 984.45, regDate: .now, expDate: .now))
+    TransactionView(transaction: TransactionModel(id: UUID(),title: "Telefon", type: .expense, state: .pending, amount: 984.45, regDate: .now, expDate: .now))
 }

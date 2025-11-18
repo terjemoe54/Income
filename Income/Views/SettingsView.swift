@@ -17,28 +17,28 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 Section(header: Text("Display"),
-                        footer: Text("System settings will override Dark Mode and use the current device theme")) {
+                        footer: Text("")) {
                     
                     Toggle(isOn: $darkModeEnabled) {
-                        Text("Dark mode")
+                        Text("Natt modus")
                     }
                     
                     Toggle(isOn: $showName) {
-                        Text("Show User Name")
+                        Text("Vis bruker navn")
                     }
                 }
                 
-                Section(header: Text("Personal Information"),
-                        footer: Text("Enter Taxprcent Here")) {
+                Section(header: Text("Personlig Information"),
+                        footer: Text("Skattprosent")) {
                     VStack {
                         HStack {
-                            Text("Your Name:          ")
-                            TextField("Name:", text: $name)
+                            Text("Ditt Navn:          ")
+                            TextField("Navn:", text: $name)
                         }
                         
                         HStack {
                             Text("Skatt:          ")
-                            TextField("Tax % :", text: $tax)
+                            TextField("Skatt % :", text: $tax)
                         }
                     }
                 }
@@ -46,23 +46,23 @@ struct SettingsView: View {
                 Section {
                     Link(destination: URL(string: Constants.web)!,
                          label: {
-                        Label("Read Last News in VG", systemImage: "globe")
+                        Label("Les VG", systemImage: "globe")
                     })
                     HStack {
                         Image(systemName: "envelope")
-                        Link("Contact me via mail",
+                        Link("Kontakt meg via mail",
                              destination: URL(string: Constants.email)!)
                     }
                     HStack {
                         Image(systemName: "phone")
-                        Link("Call me",
+                        Link("Ring meg",
                              destination: URL(string: Constants.phone)!)
                     }
                 }
             }
             .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
             .font(.system(size: 16, weight: .semibold))
-            .navigationTitle("Settings")
+            .navigationTitle("Instillinger")
         }
         .preferredColorScheme(darkModeEnabled ? .dark : .light)
     }

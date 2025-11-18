@@ -6,28 +6,37 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
     @AppStorage("darkModeEnambled") private var darkModeEnabled = false
     @AppStorage("ShowName") private var showName = false
     @AppStorage("YourName") private var name: String = ""
     @AppStorage("TaxPercent") private var tax: String = ""
+    @AppStorage("filterMinimum") var filterMinimum = 0.0
+    @AppStorage("orderDescending") var orderDescending = false
+    @AppStorage("currency") var currency = "NOK"
     @State private var showingSettings = false
-    @State private var transactionToEdit: Transaction? = nil
+    @State private var transactionToEdit: TransactionModel? = nil
     @State private var showAddTransactionView = false
-    @State private var transactions: [Transaction] =
-    [
-//         Transaction(title: "Pensjon Nav", type: .income, state: .resieved, amount: 35875, regDate: Date(), expDate: .now),
-//         Transaction(title: "Pensjon WW", type: .income, state: .resieved, amount: 1000.00, regDate: .now, expDate: .now),
-//         Transaction(title: "Skatt Nav", type: .expense, state: .taken, amount: 6457.00, regDate: .now, expDate: .now),
-//         Transaction(title: "Skatt WW", type: .expense, state: .taken, amount: 271.00, regDate: .now, expDate: .now),
-//         Transaction(title: "Husleie", type: .expense, state: .taken, amount: 11300.00, regDate: .now, expDate: Date()),
-//         Transaction(title: "Kemner", type: .expense, state: .taken, amount: 1000.00, regDate: .now, expDate: .now),
-//         Transaction(title: "Nav Feilbetalt", type: .expense, state: .taken, amount: 1370.00, regDate: .now, expDate: .now)
-    ]
+    @State private var transactions: [Transaction] = []
+    @Environment(\.modelContext) private var context
+    
+    @Query var transactionsSwiftData: [TransactionModel]
+    
+    private var displayTransactions: [TransactionModel] {
+        let sortedTransactions = orderDescending ? transactionsSwiftData.sorted(by: { $0.regDate > $1.regDate }) : transactionsSwiftData.sorted(by: { $0.regDate < $1.regDate })
+        guard filterMinimum > 0 else {
+            return sortedTransactions
+        }
+        let filteredTransactions = sortedTransactions.filter({ $0.amount > filterMinimum})
+        return filteredTransactions
+        
+    }
+    
     
     private var expenses: String {
-        let sumExpenses =  transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
+        let sumExpenses =  transactionsSwiftData.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.maximumFractionDigits = 2
@@ -36,7 +45,7 @@ struct HomeView: View {
     }
     
     private var income: String {
-        let sumIncome =  transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
+        let sumIncome =  transactionsSwiftData.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.maximumFractionDigits = 2
@@ -45,8 +54,8 @@ struct HomeView: View {
     }
     
     private var total: String {
-        let sumExpenses =  transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
-        let sumIncome =  transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
+        let sumExpenses =  transactionsSwiftData.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
+        let sumIncome =  transactionsSwiftData.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
         let total = sumIncome - sumExpenses
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
@@ -79,8 +88,8 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("BALANCE")
-                            .font(.caption)
+                        Text("På Konto")
+                            .font(.system(size: 18, weight: .bold))
                             .foregroundStyle(Color.white)
                         Text("\(total)")
                             .font(.system(size: 42, weight: .light))
@@ -92,7 +101,7 @@ struct HomeView: View {
                 
                 HStack(spacing: 25) {
                     VStack(alignment: .leading) {
-                        Text("Expense")
+                        Text("Utgifter")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(Color.white)
                         Text("\(expenses)")
@@ -100,7 +109,7 @@ struct HomeView: View {
                             .foregroundStyle(Color.white)
                     }
                     VStack(alignment: .leading) {
-                        Text("Income")
+                        Text("Intekter")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(Color.white)
                         Text("\(income)")
@@ -123,8 +132,8 @@ struct HomeView: View {
                 VStack {
                     BalanceView()
                     List {
-                        ForEach(transactions) { transaction in
-                            Button {
+                        ForEach(displayTransactions) { transaction in
+                          Button {
                                 transactionToEdit = transaction
                             } label: {
                                 TransactionView(transaction: transaction)
@@ -139,7 +148,7 @@ struct HomeView: View {
                 }
                 FloatingButton()
             }
-            .navigationTitle(showName ? "Account \(name)" : "Account")
+            .navigationTitle(showName ? "Konto: \(name)" : "Konto")
             .navigationDestination(item: $transactionToEdit, destination: {
                 transactionToEdit in
                 AddTransactionView(transactions: $transactions,
@@ -163,7 +172,11 @@ struct HomeView: View {
     }
     
     private func delete(at offsets: IndexSet) {
-        transactions.remove(atOffsets: offsets)
+       for index in offsets {
+            let transactionToDelete = transactionsSwiftData[index]
+           context.delete(transactionToDelete)
+           try? context.save()
+        }
     }
 }
 

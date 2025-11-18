@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddTransactionView: View {
    
@@ -20,8 +21,9 @@ struct AddTransactionView: View {
     @State private var alertMessage = ""
     @State private var showAlert = false
     @Binding var transactions: [Transaction]
-    var transactionToEdit: Transaction?
+    var transactionToEdit: TransactionModel?
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var context
     var numberFormatter: NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -42,7 +44,7 @@ struct AddTransactionView: View {
                 .padding(.horizontal, 30)
             
             // Picker for Expense / Income
-            Picker("Choose Type", selection: $selectedTransactionType) {
+            Picker("Velg Type", selection: $selectedTransactionType) {
                 ForEach(TransactionType.allCases) { transactionType in
                     Text(transactionType.title)
                         .tag(transactionType)
@@ -52,7 +54,7 @@ struct AddTransactionView: View {
             .padding(.horizontal, 50)
             
             // Picker for Pending / Payed / Recieved / Taken
-            Picker("Choose Type", selection: $selectedState) {
+            Picker("Velg Type", selection: $selectedState) {
                 ForEach(TransactionState.allCases) { transactionState in
                     Text(transactionState.title)
                         .tag(transactionState)
@@ -85,7 +87,7 @@ struct AddTransactionView: View {
             
             HStack {
                 VStack (alignment: .center){
-                    Text("Registration Date")
+                    Text("Registrerings Dato")
                         .padding(.leading)
                     
                     DatePicker("", selection: $selectedRegDate,
@@ -95,7 +97,7 @@ struct AddTransactionView: View {
                 .padding()
                 
                 VStack (alignment: .center) {
-                    Text("Due Date")
+                    Text("Forfalls Dato")
                         .padding(.leading)
                     
                     DatePicker("", selection: $selectedExpDate,
@@ -106,37 +108,35 @@ struct AddTransactionView: View {
             }
             .padding(.vertical, 25)
             
-            TextField("Title", text: $transactionTitle)
+            TextField("Titel", text: $transactionTitle)
                 .font(.system(size: 15))
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 30)
                 .padding(.top)
             Button {
                 guard transactionTitle.count >= 2 && amount > 0 else {
-                    alertTitle = "Invalid Title"
-                    alertMessage = "Title must be 2 or more characters and amount must be greater than 0"
+                    alertTitle = "Feil Titel"
+                    alertMessage = "Titel må være minst 2 bokstaver og Beløp må være over 0"
                     showAlert = true
                     return
                 }
-                
-                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, state: selectedState,amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
-                
+              
                 if let transactionToEdit = transactionToEdit {
-                    guard let indexOfTransaction = transactions.firstIndex(of: transactionToEdit) else {
-                        alertTitle = "Something went wrong"
-                        alertMessage = "Could not Update the transaction"
-                        showAlert = true
-                        return
-                    }
-                    transactions[indexOfTransaction] = transaction
-                } else {
-                    transactions.append(transaction)
+                    transactionToEdit.title = transactionTitle
+                    transactionToEdit.type = selectedTransactionType
+                    transactionToEdit.state = selectedState
+                    transactionToEdit.amount = amount
+                    transactionToEdit.regDate = selectedRegDate
+                    transactionToEdit.expDate = selectedExpDate
+                   } else {
+                    let transaction = TransactionModel(id: UUID(), title: transactionTitle, type: selectedTransactionType, state: selectedState, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
+                    context.insert(transaction)
                 }
                 
                 dismiss()
                 
             } label: {
-                Text(transactionToEdit == nil ? "Create" : "Update")
+                Text(transactionToEdit == nil ? "Opprett" : "Oppdater")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Color.white)
                     .frame(height: 40)
