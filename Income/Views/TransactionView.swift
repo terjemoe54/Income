@@ -30,7 +30,8 @@ struct TransactionView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
                         Text(transaction.title)
-                            .foregroundStyle(transaction.type.color)
+                           // .foregroundStyle(transaction.type.color)
+                            .foregroundStyle(Color.black)
                             .font(.system(size: 15, weight: .bold))
                         Spacer()
                         Text(String(transaction.displayAmount))
