@@ -20,7 +20,7 @@ struct AddTransactionView: View {
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var showAlert = false
-    @Binding var transactions: [Transaction]
+    
     var transactionToEdit: TransactionModel?
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var context
@@ -173,5 +173,5 @@ struct AddTransactionView: View {
 }
 
 #Preview {
-    AddTransactionView(transactions: .constant([]))
+    AddTransactionView()
 }
