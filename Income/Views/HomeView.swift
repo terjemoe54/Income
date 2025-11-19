@@ -15,11 +15,11 @@ struct HomeView: View {
     @AppStorage("TaxPercent") private var tax: String = ""
     @AppStorage("filterMinimum") var filterMinimum = 0.0
     @AppStorage("orderDescending") var orderDescending = false
-    @AppStorage("currency") var currency = "NOK"
+  
     @State private var showingSettings = false
     @State private var transactionToEdit: TransactionModel? = nil
     @State private var showAddTransactionView = false
-  
+    
     @Environment(\.modelContext) private var context
     
     @Query var transactions: [TransactionModel]
@@ -167,7 +167,7 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingSettings) {
-            SettingsView(name: $name, tax: $tax, darkModeEnabled: $darkModeEnabled, showName: $showName)
+                SettingsView(name: $name, tax: $tax, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending)
                
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)

@@ -8,13 +8,11 @@ import SwiftUI
 
 struct TransactionView: View {
     let transaction: TransactionModel
-    @AppStorage("currency") var currency = "NOK"
-    
     var body: some View {
         VStack {
             HStack {
                 Spacer()
-                Text("Registrert : \(transaction.displayRegDate)")
+                Text("Betalt : \(transaction.displayRegDate)")
                     .font(.system(size: 14,weight: .bold))
                 Spacer()
                 Text("Forfall : \(transaction.displayExpDate)")
@@ -32,11 +30,12 @@ struct TransactionView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
                         Text(transaction.title)
-                           // .foregroundStyle(transaction.type.color)
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(transaction.type.color)
+                           // .foregroundStyle(Color.black)
                             .font(.system(size: 15, weight: .bold))
                         Spacer()
                         Text(String(transaction.displayAmount))
+                            .foregroundStyle(transaction.type.color)
                             .font(.system(size: 15, weight: .bold))
                             .padding(.horizontal)
                     }
@@ -44,6 +43,7 @@ struct TransactionView: View {
                     HStack {
                         Text(transaction.type.title)
                             .font(.system(size: 14).bold())
+                            .foregroundStyle(transaction.type.color)
                          Spacer()
                         Text(transaction.state.title)
                             .font(Font.system(size: 14).bold())

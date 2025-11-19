@@ -12,21 +12,37 @@ struct SettingsView: View {
     @Binding var tax: String
     @Binding var darkModeEnabled: Bool
     @Binding var showName: Bool
+    @Binding var orderDescending: Bool
     
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Display"),
+              Section(header: Text("Display"),
                         footer: Text("")) {
                     
                     Toggle(isOn: $darkModeEnabled) {
-                        Text("Natt modus")
+                        
+                        Text(darkModeEnabled ? "Dag modus" : "Natt modus")
+                        
                     }
                     
                     Toggle(isOn: $showName) {
-                        Text("Vis bruker navn")
+                        Text(showName ? "Skjul bruker navn" : "Vis bruker navn")
                     }
                 }
+                
+                Section(header: Text("Sortering"),
+                        footer: Text("")) {
+                    
+                    Toggle(isOn: $orderDescending) {
+                        Text(orderDescending ? "Dato (Elste først)" :"Dato (Nyeste først)")
+                    }
+                    
+//                    Toggle(isOn: $showName) {
+//                        Text("Intekter / Utgifter")
+//                    }
+                }
+                
                 
                 Section(header: Text("Personlig Information"),
                         footer: Text("Skattprosent")) {
@@ -69,5 +85,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), darkModeEnabled: .constant(false), showName: .constant(false))
+    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false))
 }
