@@ -10,7 +10,6 @@ import SwiftData
 
 struct AddTransactionView: View {
    
-    @State private var amountText: String = ""
     @State private var amount: Double = 0.0
     @State private var transactionTitle = ""
     @State private var selectedTransactionType: TransactionType = .expense
@@ -34,7 +33,7 @@ struct AddTransactionView: View {
     var body: some View {
         VStack {
             Spacer()
-            TextField("Beløp", text: $amountText)
+            TextField("Beløp", value: $amount, formatter: numberFormatter)
                 .font(.system(size: 60, weight: .thin))
                 .multilineTextAlignment(.center)
                 .keyboardType(.decimalPad)
@@ -115,10 +114,6 @@ struct AddTransactionView: View {
                 .padding(.horizontal, 30)
                 .padding(.top)
             Button {
-                // Parse amountText into amount (supports comma or dot)
-                let normalized = amountText.replacingOccurrences(of: ",", with: ".").trimmingCharacters(in: .whitespacesAndNewlines)
-                amount = Double(normalized) ?? 0
-                
                 guard transactionTitle.count >= 2 && amount > 0 else {
                     alertTitle = "Feil Titel"
                     alertMessage = "Titel må være minst 2 bokstaver og Beløp må være over 0"
@@ -156,7 +151,6 @@ struct AddTransactionView: View {
         .onAppear(perform: {
             if let transactionToEdit = transactionToEdit {
                 amount = transactionToEdit.amount
-                amountText = numberFormatter.string(from: NSNumber(value: transactionToEdit.amount)) ?? ""
                 transactionTitle = transactionToEdit.title
                 selectedTransactionType = transactionToEdit.type
                 selectedState = transactionToEdit.state
@@ -164,7 +158,7 @@ struct AddTransactionView: View {
                 selectedExpDate = transactionToEdit.expDate
                 
             }
-            amountText = ""
+           
         })
         .padding(.top)
         .alert(alertTitle, isPresented: $showAlert) {
