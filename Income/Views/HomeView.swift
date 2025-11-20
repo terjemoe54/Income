@@ -173,13 +173,29 @@ struct HomeView: View {
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
     
+ // Denne er laget av AI
+    
     private func delete(at offsets: IndexSet) {
-       for index in offsets {
-            let transactionToDelete = transactions[index]
-           context.delete(transactionToDelete)
-           try? context.save()
-        }
-    }
+       // Map the offsets to the displayed (sorted/filtered) transactions
+       let itemsToDelete = offsets.compactMap { index in
+           displayTransactions.indices.contains(index) ? displayTransactions[index] : nil
+       }
+
+       // Delete each item from the model context
+       for item in itemsToDelete {
+           context.delete(item)
+       }
+
+       // Persist changes
+       do {
+           try context.save()
+       } catch {
+           // Handle save errors if needed (you could add logging or user feedback here)
+           #if DEBUG
+           print("Failed to save context after deletion: \(error)")
+           #endif
+       }
+   }
 }
 
 #Preview {
