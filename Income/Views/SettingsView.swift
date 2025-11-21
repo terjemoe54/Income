@@ -42,8 +42,7 @@ struct SettingsView: View {
 //                        Text("Intekter / Utgifter")
 //                    }
                 }
-                
-                
+  
                 Section(header: Text("Personlig Information"),
                         footer: Text("Skattprosent")) {
                     VStack {
