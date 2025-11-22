@@ -15,7 +15,8 @@ struct HomeView: View {
     @AppStorage("TaxPercent") private var tax: String = ""
     @AppStorage("filterMinimum") var filterMinimum = 0.0
     @AppStorage("orderDescending") var orderDescending = false
-    @AppStorage("showExpenses") var showExpenses = false
+    @AppStorage("showExpenses") var showExpenses = true
+  
     
     @State private var showingSettings = false
     @State private var transactionToEdit: TransactionModel? = nil
@@ -27,12 +28,10 @@ struct HomeView: View {
     
     private var displayTransactions: [TransactionModel] {
         let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.regDate > $1.regDate }) : transactions.sorted(by: { $0.regDate < $1.regDate })
-        guard showExpenses != false  else {
+        guard filterMinimum > 0 else {
             return sortedTransactions
         }
-        //        let filteredTransactions = sortedTransactions.filter({ $0.amount > filterMinimum})
-        let filteredTransactions = sortedTransactions.filter( { showExpenses ? $0.type == .income : $0.type != .expense})
-        
+        let filteredTransactions = sortedTransactions.filter({ $0.amount > filterMinimum})
         return filteredTransactions
         
     }
@@ -136,24 +135,16 @@ struct HomeView: View {
                     BalanceView()
                     List {
                         ForEach(displayTransactions) { transaction in
-                            Button {
+                          Button {
                                 transactionToEdit = transaction
                             } label: {
                                 TransactionView(transaction: transaction)
                                     .foregroundStyle(.black)
                             }
+                            
+                   
                         }
                         .onDelete(perform: delete)
-                        Section {
-                            // Empty section body to keep structure simple
-                        } footer: {
-                            HStack {
-                                Spacer()
-                                Text(total)
-                                    .font(.headline)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
                     }
                     .scrollContentBackground(.hidden)
                 }
@@ -165,12 +156,12 @@ struct HomeView: View {
                 AddTransactionView(transactionToEdit: transactionToEdit)
             })
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
-                AddTransactionView()
+                AddTransactionView() 
             })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showingSettings = true
+                    showingSettings = true
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundStyle(darkModeEnabled ? Color.white : Color.black)
@@ -179,34 +170,34 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView(name: $name, tax: $tax, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending, showExpenses: $showExpenses)
-                
+               
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
     
-    // Denne er laget av AI
+ // Denne er laget av AI
     
     private func delete(at offsets: IndexSet) {
-        // Map the offsets to the displayed (sorted/filtered) transactions
-        let itemsToDelete = offsets.compactMap { index in
-            displayTransactions.indices.contains(index) ? displayTransactions[index] : nil
-        }
-        
-        // Delete each item from the model context
-        for item in itemsToDelete {
-            context.delete(item)
-        }
-        
-        // Persist changes
-        do {
-            try context.save()
-        } catch {
-            // Handle save errors if needed (you could add logging or user feedback here)
-#if DEBUG
-            print("Failed to save context after deletion: \(error)")
-#endif
-        }
-    }
+       // Map the offsets to the displayed (sorted/filtered) transactions
+       let itemsToDelete = offsets.compactMap { index in
+           displayTransactions.indices.contains(index) ? displayTransactions[index] : nil
+       }
+
+       // Delete each item from the model context
+       for item in itemsToDelete {
+           context.delete(item)
+       }
+
+       // Persist changes
+       do {
+           try context.save()
+       } catch {
+           // Handle save errors if needed (you could add logging or user feedback here)
+           #if DEBUG
+           print("Failed to save context after deletion: \(error)")
+           #endif
+       }
+   }
 }
 
 #Preview {

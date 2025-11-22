@@ -47,7 +47,7 @@ struct SettingsView: View {
                     
                     VStack {
                         Toggle(isOn: $showExpenses) {
-                            Text("Vis Bare Intekter")
+                            Text("Vis Utgifter")
                         }
                         
                         HStack {

@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct TransactionView: View {
+    @Environment(\.colorScheme) var colorScheme
     let transaction: TransactionModel
     var body: some View {
         VStack {
@@ -30,12 +31,13 @@ struct TransactionView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
                         Text(transaction.title)
-                            .foregroundStyle(transaction.type.color)
-                           // .foregroundStyle(Color.black)
+                           // .foregroundStyle(transaction.type.color)
+                            .foregroundStyle(colorScheme == .dark ? .white : .black)
                             .font(.system(size: 15, weight: .bold))
                         Spacer()
                         Text(String(transaction.displayAmount))
-                            .foregroundStyle(transaction.type.color)
+                          //  .foregroundStyle(transaction.type.color)
+                            .foregroundStyle(colorScheme == .dark ? .white : .black)
                             .font(.system(size: 15, weight: .bold))
                             .padding(.horizontal)
                     }
@@ -43,11 +45,13 @@ struct TransactionView: View {
                     HStack {
                         Text(transaction.type.title)
                             .font(.system(size: 14).bold())
-                            .foregroundStyle(transaction.type.color)
+                            // .foregroundStyle(transaction.type.color)
+                            .foregroundStyle(colorScheme == .dark ? .white : .black)
                          Spacer()
                         Text(transaction.state.title)
                             .font(Font.system(size: 14).bold())
                             .foregroundStyle(transaction.state.color)
+                          //  .foregroundStyle(colorScheme == .dark ? .white : .black)
                             .padding(.horizontal)
                     }
                 }
