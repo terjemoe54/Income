@@ -13,11 +13,12 @@ struct SettingsView: View {
     @Binding var darkModeEnabled: Bool
     @Binding var showName: Bool
     @Binding var orderDescending: Bool
+    @Binding var showExpenses: Bool
     
     var body: some View {
         NavigationView {
             Form {
-              Section(header: Text("Display"),
+                Section(header: Text("Display"),
                         footer: Text("")) {
                     
                     Toggle(isOn: $darkModeEnabled) {
@@ -29,30 +30,28 @@ struct SettingsView: View {
                     Toggle(isOn: $showName) {
                         Text(showName ? "Skjul bruker navn" : "Vis bruker navn")
                     }
+                    HStack {
+                        Text("Ditt Navn:          ")
+                        TextField("Navn:", text: $name)
+                    }
                 }
                 
-                Section(header: Text("Sortering"),
+                Section(header: Text("Sortering / Filter"),
                         footer: Text("")) {
                     
                     Toggle(isOn: $orderDescending) {
                         Text(orderDescending ? "Dato (Elste først)" :"Dato (Nyeste først)")
                     }
                     
-//                    Toggle(isOn: $showName) {
-//                        Text("Intekter / Utgifter")
-//                    }
-                }
-  
-                Section(header: Text("Personlig Information"),
-                        footer: Text("Skattprosent")) {
+                    
+                    
                     VStack {
-                        HStack {
-                            Text("Ditt Navn:          ")
-                            TextField("Navn:", text: $name)
+                        Toggle(isOn: $showExpenses) {
+                            Text("Vis Bare Intekter")
                         }
                         
                         HStack {
-                            Text("Skatt:          ")
+                            Text("Fra / Til Dato:")
                             TextField("Skatt % :", text: $tax)
                         }
                     }
@@ -84,5 +83,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false))
+    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false), showExpenses: .constant(false))
 }
