@@ -13,7 +13,7 @@ struct HomeView: View {
     @AppStorage("ShowName") private var showName = false
     @AppStorage("YourName") private var name: String = ""
     @AppStorage("TaxPercent") private var tax: String = ""
-    @AppStorage("filterMinimum") var filterMinimum = 0.0
+    @AppStorage("filterMinimum") var filterMinimum = 1.0
     @AppStorage("orderDescending") var orderDescending = false
     @AppStorage("showExpenses") var showExpenses = true
   
@@ -169,7 +169,7 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingSettings) {
-                SettingsView(name: $name, tax: $tax, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending, showExpenses: $showExpenses)
+                SettingsView(name: $name, tax: $tax, filterMinimum: $filterMinimum, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending, showExpenses: $showExpenses)
                
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)

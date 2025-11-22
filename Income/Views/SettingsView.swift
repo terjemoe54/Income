@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @Binding var name: String
     @Binding var tax: String
+    @Binding var filterMinimum: Double
     @Binding var darkModeEnabled: Bool
     @Binding var showName: Bool
     @Binding var orderDescending: Bool
@@ -42,17 +43,14 @@ struct SettingsView: View {
                     Toggle(isOn: $orderDescending) {
                         Text(orderDescending ? "Dato (Elste først)" :"Dato (Nyeste først)")
                     }
-                    
-                    
-                    
                     VStack {
-                        Toggle(isOn: $showExpenses) {
+                       Toggle(isOn: $showExpenses) {
                             Text("Vis Utgifter")
                         }
                         
                         HStack {
-                            Text("Fra / Til Dato:")
-                            TextField("Skatt % :", text: $tax)
+                            Text("Minimumsbeløp:")
+                            TextField("Beløp :", value: $filterMinimum, formatter: NumberFormatter())
                         }
                     }
                 }
@@ -83,5 +81,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false), showExpenses: .constant(false))
+    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), filterMinimum: .constant(0.0), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false), showExpenses: .constant(false))
 }
