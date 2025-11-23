@@ -31,33 +31,38 @@ struct HomeView: View {
         guard filterMinimum > 0 else {
             return sortedTransactions
         }
-        let filteredTransactions = sortedTransactions.filter({ $0.amount > filterMinimum})
+        
+        let filteredTransactions = sortedTransactions.filter({ ($0.amount > filterMinimum) && (showExpenses ? $0.type == .expense : $0.type == .income || $0.type == .expense )})
         return filteredTransactions
         
     }
     
     
     private var expenses: String {
-        let sumExpenses =  transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
+        let sumExpenses =  transactions.filter({ $0.type == .expense &&  $0.amount > filterMinimum }).reduce(0, { $0 + $1.amount})
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.maximumFractionDigits = 2
+        
         return numberFormatter.string(from: sumExpenses as NSNumber) ?? "NOK 0.00"
         
     }
     
     private var income: String {
-        let sumIncome =  transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
+        let sumIncome =  transactions.filter({ $0.type == .income &&  $0.amount > filterMinimum }).reduce(0, { $0 + $1.amount})
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.maximumFractionDigits = 2
+        guard !showExpenses else {
+            return "0.00"
+        }
         return numberFormatter.string(from: sumIncome as NSNumber) ?? "NOK 0.00"
         
     }
     
     private var total: String {
-        let sumExpenses =  transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount})
-        let sumIncome =  transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount})
+        let sumExpenses =  transactions.filter({ $0.type == .expense &&  $0.amount > filterMinimum }).reduce(0, { $0 + $1.amount})
+        let sumIncome =  transactions.filter({ $0.type == .income &&  $0.amount > filterMinimum }).reduce(0, { $0 + $1.amount})
         let total = sumIncome - sumExpenses
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
