@@ -15,6 +15,8 @@ struct SettingsView: View {
     @Binding var showName: Bool
     @Binding var orderDescending: Bool
     @Binding var showExpenses: Bool
+    @Binding var fromDate: Date
+    @Binding var toDate: Date
     
     var body: some View {
         NavigationView {
@@ -52,6 +54,28 @@ struct SettingsView: View {
                             Text("Minimumsbeløp:")
                             TextField("Beløp :", value: $filterMinimum, formatter: NumberFormatter())
                         }
+                        
+                        HStack{
+                            VStack (alignment: .center) {
+                                Text("Fra Dato")
+                                    .padding(.leading)
+                                  DatePicker("", selection: $fromDate,
+                                           displayedComponents: .date)
+                                .padding(.trailing)
+                            }
+                           
+                            
+                            VStack (alignment: .center) {
+                                Text("Til Dato")
+                                    .padding(.leading)
+                                  DatePicker("", selection: $toDate,
+                                           displayedComponents: .date)
+                                .padding(.trailing)
+                            }
+                           
+                            
+                            
+                        }
                     }
                 }
                 
@@ -81,5 +105,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), filterMinimum: .constant(0.0), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false), showExpenses: .constant(false))
+    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), filterMinimum: .constant(0.0), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false), showExpenses: .constant(false), fromDate: .constant(Date()), toDate: .constant(Date()))
 }

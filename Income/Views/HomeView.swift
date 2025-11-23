@@ -16,7 +16,8 @@ struct HomeView: View {
     @AppStorage("filterMinimum") var filterMinimum = 1.0
     @AppStorage("orderDescending") var orderDescending = false
     @AppStorage("showExpenses") var showExpenses = true
-  
+    @AppStorage("fromDate") var fromDate = Date()
+    @AppStorage("toDate") var toDate = Date()
     
     @State private var showingSettings = false
     @State private var transactionToEdit: TransactionModel? = nil
@@ -32,7 +33,12 @@ struct HomeView: View {
             return sortedTransactions
         }
         
-        let filteredTransactions = sortedTransactions.filter({ ($0.amount > filterMinimum) && (showExpenses ? $0.type == .expense : $0.type != .all)})
+        let filteredTransaction1 = sortedTransactions.filter({ ($0.amount > filterMinimum) && (showExpenses ? $0.type == .expense : $0.type != .all)})
+        
+        let filteredTransaction2 = sortedTransactions.filter({ ($0.regDate >= fromDate) && ($0.regDate <= toDate) })
+        
+       let filteredTransactions = filteredTransaction1.filter({ filteredTransaction2.contains($0) })
+        
         return filteredTransactions
         
     }
@@ -137,6 +143,7 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 VStack {
+                   // Text("\(toDate)")
                     BalanceView()
                     List {
                         ForEach(displayTransactions) { transaction in
@@ -174,7 +181,7 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingSettings) {
-                SettingsView(name: $name, tax: $tax, filterMinimum: $filterMinimum, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending, showExpenses: $showExpenses)
+                SettingsView(name: $name, tax: $tax, filterMinimum: $filterMinimum, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending, showExpenses: $showExpenses, fromDate: $fromDate, toDate: $toDate)
                
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)
