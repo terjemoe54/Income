@@ -32,7 +32,7 @@ struct HomeView: View {
             return sortedTransactions
         }
         
-        let filteredTransactions = sortedTransactions.filter({ ($0.amount > filterMinimum) && (showExpenses ? $0.type == .expense : $0.type == .income || $0.type == .expense )})
+        let filteredTransactions = sortedTransactions.filter({ ($0.amount > filterMinimum) && (showExpenses ? $0.type == .expense : $0.type != .all)})
         return filteredTransactions
         
     }

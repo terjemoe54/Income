@@ -40,7 +40,7 @@ enum TransactionState: String, CaseIterable, Identifiable, Codable {
 }
 
 enum TransactionType: String, CaseIterable, Identifiable, Codable {
-    case income, expense
+    case income, expense, all
     var id: Self { self }
     
     var title: String {
@@ -49,6 +49,8 @@ enum TransactionType: String, CaseIterable, Identifiable, Codable {
             return "Intekt"
         case .expense:
             return "Utgift"
+        case .all:
+            return "Alle"
         }
     }
     
@@ -59,6 +61,8 @@ enum TransactionType: String, CaseIterable, Identifiable, Codable {
             return .green
         case .expense:
             return .red
+        case .all:
+            return .primary
         }
     }
 }
