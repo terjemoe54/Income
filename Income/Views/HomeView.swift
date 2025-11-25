@@ -18,6 +18,7 @@ struct HomeView: View {
     @AppStorage("showExpenses") var showExpenses = true
     @AppStorage("fromDate") var fromDate = Date()
     @AppStorage("toDate") var toDate = Date()
+    @AppStorage("sortPaid") var sortPaid = false
     
     @State private var showingSettings = false
     @State private var transactionToEdit: TransactionModel? = nil
@@ -37,7 +38,7 @@ struct HomeView: View {
         
         let filteredTransaction1 = sortedTransactions.filter({ ($0.amount > filterMinimum) && (showExpenses ? $0.type == .expense : $0.type != .all)})
         
-        let filteredTransaction2 = sortedTransactions.filter({ ($0.regDate >= calendar.startOfDay(for: fromDate)) && ($0.regDate <= calendar.startOfDay(for: toDate))})
+        let filteredTransaction2 = sortedTransactions.filter({ sortPaid ? ($0.regDate >= calendar.startOfDay(for: fromDate)) && ($0.regDate <= calendar.startOfDay(for: toDate)) : ($0.expDate >= calendar.startOfDay(for: fromDate)) && ($0.expDate <= calendar.startOfDay(for: toDate))})
         
         let filteredTransactions = filteredTransaction1.filter({ filteredTransaction2.contains($0) })
         
@@ -184,7 +185,7 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingSettings) {
-                SettingsView(name: $name, tax: $tax, filterMinimum: $filterMinimum, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending, showExpenses: $showExpenses, fromDate: $fromDate, toDate: $toDate)
+                SettingsView(name: $name, tax: $tax, filterMinimum: $filterMinimum, darkModeEnabled: $darkModeEnabled, showName: $showName, orderDescending: $orderDescending, showExpenses: $showExpenses, fromDate: $fromDate, toDate: $toDate, sortPaid: $sortPaid)
                
             }
         }.preferredColorScheme(darkModeEnabled ? .dark : .light)

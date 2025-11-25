@@ -17,6 +17,7 @@ struct SettingsView: View {
     @Binding var showExpenses: Bool
     @Binding var fromDate: Date
     @Binding var toDate: Date
+    @Binding var sortPaid: Bool
     
     var body: some View {
         NavigationView {
@@ -55,6 +56,10 @@ struct SettingsView: View {
                             TextField("Beløp :", value: $filterMinimum, formatter: NumberFormatter())
                         }
                         
+                        Toggle(isOn: $sortPaid) {
+                             Text("Betalt Dato")
+                         }
+                        
                         HStack{
                             VStack (alignment: .center) {
                                 Text("Fra Dato")
@@ -63,8 +68,7 @@ struct SettingsView: View {
                                            displayedComponents: .date)
                                 .padding(.trailing)
                             }
-                           
-                            
+                                 
                             VStack (alignment: .center) {
                                 Text("Til Dato")
                                     .padding(.leading)
@@ -72,9 +76,6 @@ struct SettingsView: View {
                                            displayedComponents: .date)
                                 .padding(.trailing)
                             }
-                           
-                            
-                            
                         }
                     }
                 }
@@ -105,5 +106,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), filterMinimum: .constant(0.0), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false), showExpenses: .constant(false), fromDate: .constant(Date()), toDate: .constant(Date()))
+    SettingsView(name: .constant("Tomle Hue"), tax: .constant("18"), filterMinimum: .constant(0.0), darkModeEnabled: .constant(false), showName: .constant(false), orderDescending: .constant(false), showExpenses: .constant(false), fromDate: .constant(Date()), toDate: .constant(Date()), sortPaid: .constant(false))
 }
