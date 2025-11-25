@@ -27,6 +27,8 @@ struct HomeView: View {
     
     @Query var transactions: [TransactionModel]
     
+    let calendar = Calendar.current
+    
     private var displayTransactions: [TransactionModel] {
         let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.regDate > $1.regDate }) : transactions.sorted(by: { $0.regDate < $1.regDate })
         guard filterMinimum > 0 else {
@@ -35,9 +37,9 @@ struct HomeView: View {
         
         let filteredTransaction1 = sortedTransactions.filter({ ($0.amount > filterMinimum) && (showExpenses ? $0.type == .expense : $0.type != .all)})
         
-        let filteredTransaction2 = sortedTransactions.filter({ ($0.regDate >= fromDate) && ($0.regDate <= toDate) })
+        let filteredTransaction2 = sortedTransactions.filter({ ($0.regDate >= calendar.startOfDay(for: fromDate)) && ($0.regDate <= calendar.startOfDay(for: toDate))})
         
-       let filteredTransactions = filteredTransaction1.filter({ filteredTransaction2.contains($0) })
+        let filteredTransactions = filteredTransaction1.filter({ filteredTransaction2.contains($0) })
         
         return filteredTransactions
         
@@ -143,8 +145,8 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    Text("\(fromDate)")
-                    Text("\(toDate)")
+                 //   Text("\(fromDate)")
+                 //   Text("\(toDate)")
                     BalanceView()
                     List {
                         ForEach(displayTransactions) { transaction in
