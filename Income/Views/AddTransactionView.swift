@@ -30,6 +30,21 @@ struct AddTransactionView: View {
         return numberFormatter
     }
     
+    /* Gjøre om dato til dato uten tid
+     let calendar = Calendar.current
+     let date = Date()
+
+     // Strip time from date
+     let dateOnly = calendar.startOfDay(for: date)
+
+     // Extract year and other components
+     let year = calendar.component(.year, from: dateOnly)
+     let month = calendar.component(.month, from: dateOnly)
+     let day = calendar.component(.day, from: dateOnly)
+     */
+    
+    let calendar = Calendar.current
+    
     var body: some View {
         VStack {
             Spacer()
@@ -120,16 +135,17 @@ struct AddTransactionView: View {
                     showAlert = true
                     return
                 }
-              
+             
                 if let transactionToEdit = transactionToEdit {
                     transactionToEdit.title = transactionTitle
                     transactionToEdit.type = selectedTransactionType
                     transactionToEdit.state = selectedState
                     transactionToEdit.amount = amount
-                    transactionToEdit.regDate = selectedRegDate
-                    transactionToEdit.expDate = selectedExpDate
+                  //  transactionToEdit.regDate = selectedRegDate
+                    transactionToEdit.regDate = calendar.startOfDay(for: selectedRegDate)
+                    transactionToEdit.expDate = calendar.startOfDay(for: selectedExpDate)
                    } else {
-                    let transaction = TransactionModel(id: UUID(), title: transactionTitle, type: selectedTransactionType, state: selectedState, amount: amount, regDate: selectedRegDate, expDate: selectedExpDate)
+                       let transaction = TransactionModel(id: UUID(), title: transactionTitle, type: selectedTransactionType, state: selectedState, amount: amount, regDate: calendar.startOfDay(for: selectedRegDate), expDate: calendar.startOfDay(for: selectedExpDate))
                     context.insert(transaction)
                 }
                 

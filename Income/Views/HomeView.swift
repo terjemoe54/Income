@@ -143,7 +143,8 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 VStack {
-                   // Text("\(toDate)")
+                    Text("\(fromDate)")
+                    Text("\(toDate)")
                     BalanceView()
                     List {
                         ForEach(displayTransactions) { transaction in
