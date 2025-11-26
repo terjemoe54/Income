@@ -31,7 +31,8 @@ struct HomeView: View {
     let calendar = Calendar.current
     
     private var displayTransactions: [TransactionModel] {
-        let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.regDate > $1.regDate }) : transactions.sorted(by: { $0.regDate < $1.regDate })
+        let sortedTransactions =  sortPaid ? orderDescending ? transactions.sorted(by: { $0.regDate > $1.regDate }) : transactions.sorted(by: { $0.regDate < $1.regDate }) :  orderDescending ? transactions.sorted(by: { $0.expDate > $1.expDate }) : transactions.sorted(by: { $0.expDate < $1.expDate })
+        
         guard filterMinimum > 0 else {
             return sortedTransactions
         }

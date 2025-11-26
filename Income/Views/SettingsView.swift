@@ -27,12 +27,12 @@ struct SettingsView: View {
                     
                     Toggle(isOn: $darkModeEnabled) {
                         
-                        Text(darkModeEnabled ? "Dag modus" : "Natt modus")
+                        Text(!darkModeEnabled ? "Dag modus" : "Natt modus")
                         
                     }
                     
                     Toggle(isOn: $showName) {
-                        Text(showName ? "Skjul bruker navn" : "Vis bruker navn")
+                        Text(!showName ? "Skjult bruker navn" : "Vist bruker navn")
                     }
                     HStack {
                         Text("Ditt Navn:          ")
@@ -44,7 +44,7 @@ struct SettingsView: View {
                         footer: Text("")) {
                     
                     Toggle(isOn: $orderDescending) {
-                        Text(orderDescending ? "Dato (Elste først)" :"Dato (Nyeste først)")
+                        Text(!orderDescending ? "Dato (Elste først)" :"Dato (Nyeste først)")
                     }
                     VStack {
                        Toggle(isOn: $showExpenses) {
@@ -57,7 +57,7 @@ struct SettingsView: View {
                         }
                         
                         Toggle(isOn: $sortPaid) {
-                             Text("Betalt Dato")
+                            Text(!sortPaid ? "Forfalls-Dato" : "Betalt-Dato")
                          }
                         
                         HStack{
