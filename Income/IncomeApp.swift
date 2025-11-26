@@ -4,6 +4,7 @@
 //
 //  Created by Terje Moe on 08/11/2025.
 //
+// Denne bruker iCloud Data
 
 import SwiftUI
 import SwiftData
