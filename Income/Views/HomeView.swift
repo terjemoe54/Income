@@ -133,6 +133,14 @@ struct HomeView: View {
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(Color.white)
                     }
+                    VStack(alignment: .leading) {
+                        Text("Poster")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(Color.white)
+                        Text("\(transactions.count)")
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundStyle(Color.white)
+                    }
                 }
                 Spacer()
             }
